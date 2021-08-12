@@ -1,3 +1,5 @@
+// What it says on the box... turn it into pig latin!
+
 function pigIt(str) {
     // split the phrase into individual words
     let indWords = str.split(' ');

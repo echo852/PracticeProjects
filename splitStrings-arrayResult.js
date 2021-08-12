@@ -1,3 +1,5 @@
+// Given a string, split it in to even pairs.
+// If uneven, put _ on the end of the second
 function solution (str) {
     let newStr = '';
     let output = [];

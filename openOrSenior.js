@@ -1,3 +1,6 @@
+// In an event, will the participant be in the open or senior?
+// Senior is for if the player is 55 or older and has a handicap of greater than 7
+
 function openOrSenior(data) {
     let strList = [];
     data.forEach(dataPair => {

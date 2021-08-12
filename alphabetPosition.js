@@ -1,3 +1,4 @@
+// This function returns the alphabetical position of each letter
 function alphabetPosition(text) {
     // let's use unicode characters instead of entering an entire alphabet
     let unicodeConvInt = 96;

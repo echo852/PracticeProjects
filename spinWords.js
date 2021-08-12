@@ -1,3 +1,5 @@
+// Reverse the in a given string if it's longer than 5 characters
+
 function spinWords(string) {
     // split the string into individual words
     let indWords = string.split(' ');
