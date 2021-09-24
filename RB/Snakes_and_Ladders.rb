@@ -70,5 +70,11 @@ class SnakesLadders
     # final method to actually play the game!
     def play(die1,die2)
         sum = die1 + die2
+        # update player's current location
+        # check player's current location
+        # compare die1 and die2
+        # roll again if they're the same
+        # swap to the other player
+        # continue until someone reaches exactly 100
     end
 end
