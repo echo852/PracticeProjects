@@ -13,22 +13,27 @@ class SnakesLadders
     # where are the players currently?
     player_locations = [[1,0],[2,0]]
 
-    # check to see if the player landed on a snake
-    def snake_check(location)
-        snake_squares.select {|(head,tail)|
+    # check to see if the player landed on a snake or a ladder
+    def square_check(location)
+        snake_end = snake_squares.select {|(head,tail)|
             head == location
         }.map {|(head,tail)|
             tail
         }
-    end
 
-    # check to see if the player landed on a ladder
-    def ladder_check(location)
-        ladder_squares.select {|(bottom,top)|
+        ladder_end = ladder_squares.select {|(bottom,top)|
             bottom == location
         }.map {|(bottom,top)|
             top
         }
+
+        if snake_end != nil
+            return snake_end
+        elsif ladder_end != nil
+            return ladder_end            
+        else
+            return 0
+        end
     end
 
     # change current player
@@ -41,8 +46,15 @@ class SnakesLadders
     end
 
     # update the current player's location
-    def update_location(num)
-        player_locations[player_number] += num
+    def update_location(die_sum)
+        player_locations[player_number] += die_sum
+        current_location = player_locations[player_number]
+        snake_or_ladder_movement = square_check(current_location) # a variable to store the result of checking if the player moved along a snake or a ladder
+        if snake_or_ladder_movement != 0
+            player_locations[player_number] = snake_or_ladder_movement
+        else
+            player_locations[player_number] = current_location
+        end
     end
 
     # check to see where the player is
@@ -51,15 +63,12 @@ class SnakesLadders
         if loc == 100
             return "Congratulations!  Player #{player_number} wins!"
         elsif loc > 100
-            # do something
+            # do something... bounce off 100 and go back
         end
-
-        # also check if there's a snake or a ladder here
     end
 
+    # final method to actually play the game!
     def play(die1,die2)
         sum = die1 + die2
-        update_location(sum)
-        check_location
     end
 end
