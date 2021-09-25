@@ -42,20 +42,18 @@ class SnakesLadders
             difference = loc - 100
             go_back = 100 - difference
             player_locations[player_number] = go_back
-            puts "Player #{player_number} is on square #{go_back}"
+            puts "Player #{player_number+1} is on square #{go_back}"
         else
-            puts "Player #{player_number} is on square #{loc}"
+            puts "Player #{player_number+1} is on square #{loc}"
         end
     end
 
     # change current player
     def swap_players
         if player_number == 0
-            player_number = 1
-            puts "player number is now #{player_number}"
+            @player_number = 1
         else
-            player_number = 0
-            puts "player number is now #{player_number}"
+            @player_number = 0
         end
     end
 
@@ -66,7 +64,6 @@ class SnakesLadders
         loc = player_locations[player_number]
         check_location(loc)
         swap_players if die1 != die2
-        # continue until someone reaches exactly 100
     end
 end
 
@@ -74,4 +71,5 @@ game = SnakesLadders.new
 
 game.play(1,1)
 game.play(1,5)
-game.play(6,2) # why isn't it changing to the next player???
+game.play(6,2)
+game.play(1,1)
