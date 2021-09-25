@@ -5,8 +5,7 @@
 
 class SnakesLadders
 
-    attr_reader :event_squares
-    attr_accessor :player_number, :player_locations
+    attr_reader :event_squares, :player_number, :player_locations
 
     def initialize
         @event_squares = [[16,6],[46,25],[49,11],[62,19],[64,60],[74,53],[89,68],[92,88],[95,75],[99,80],[2,38],[7,14],[8,31],[15,26],[21,42],[28,84],[36,44],[51,67],[71,91],[78,98],[87,94]]
@@ -21,19 +20,10 @@ class SnakesLadders
     # check to see if the player landed on a snake or a ladder (one of the event squares)
     def square_check(location)
         event_squares.each {|event|
-            if player_locations[player_number] == event
+            if player_locations[player_number] == event[0]
                 player_locations[player_number] = event[1]
             end
         }
-    end
-
-    # change current player
-    def swap_players
-        if player_number == 0
-            player_number = 1
-        else
-            player_number = 0
-        end
     end
 
     # update the current player's location
@@ -58,15 +48,24 @@ class SnakesLadders
         end
     end
 
+    # change current player
+    def swap_players
+        if player_number == 0
+            player_number = 1
+            puts "player number is now #{player_number}"
+        else
+            player_number = 0
+            puts "player number is now #{player_number}"
+        end
+    end
+
     # final method to actually play the game!
     def play(die1,die2)
         sum = die1 + die2
         update_location(sum)
         loc = player_locations[player_number]
         check_location(loc)
-        if die1 != die2
-            swap_players()
-        end
+        swap_players if die1 != die2
         # continue until someone reaches exactly 100
     end
 end
@@ -74,3 +73,5 @@ end
 game = SnakesLadders.new
 
 game.play(1,1)
+game.play(1,5)
+game.play(6,2) # why isn't it changing to the next player???
