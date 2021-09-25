@@ -5,7 +5,7 @@
 
 class SnakesLadders
 
-    attr_reader :event_squares, :player_number, :player_locations, :game_over
+    attr_accessor :event_squares, :player_number, :player_locations, :game_over
 
     def initialize
         @event_squares = [[16,6],[46,25],[49,11],[62,19],[64,60],[74,53],[89,68],[92,88],[95,75],[99,80],[2,38],[7,14],[8,31],[15,26],[21,42],[28,84],[36,44],[51,67],[71,91],[78,98],[87,94]]
@@ -46,6 +46,7 @@ class SnakesLadders
             go_back = 100 - difference
             player_locations[player_number] = go_back
         end
+        update_location(0)
     end
 
     def message_generator(loc)
