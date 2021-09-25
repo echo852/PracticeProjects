@@ -5,7 +5,7 @@
 
 class SnakesLadders
 
-    attr_reader :event_squares, :player_number, :player_locations
+    attr_reader :event_squares, :player_number, :player_locations, :game_over
 
     def initialize
         @event_squares = [[16,6],[46,25],[49,11],[62,19],[64,60],[74,53],[89,68],[92,88],[95,75],[99,80],[2,38],[7,14],[8,31],[15,26],[21,42],[28,84],[36,44],[51,67],[71,91],[78,98],[87,94]]
@@ -15,6 +15,9 @@ class SnakesLadders
     
         # where are the players currently?
         @player_locations = [0,0]
+
+        # is the game over?
+        @game_over = false
     end
 
     # check to see if the player landed on a snake or a ladder (one of the event squares)
@@ -37,14 +40,21 @@ class SnakesLadders
     # check to see where the player is
     def check_location(loc)
         if loc == 100
-            puts "Congratulations!  Player #{player_number} wins!"
+            @game_over = true
         elsif loc > 100
             difference = loc - 100
             go_back = 100 - difference
             player_locations[player_number] = go_back
-            puts "Player #{player_number+1} is on square #{go_back}"
+        end
+    end
+
+    def message_generator(loc)
+        if loc == 100
+            return "Player #{player_number+1} Wins!"
+        elsif game_over == true
+            return "Game over!"
         else
-            puts "Player #{player_number+1} is on square #{loc}"
+            return "Player #{player_number+1} is on square #{loc}"
         end
     end
 
@@ -63,7 +73,10 @@ class SnakesLadders
         update_location(sum)
         loc = player_locations[player_number]
         check_location(loc)
+        updated_loc = player_locations[player_number]
+        message = message_generator(updated_loc)
         swap_players if die1 != die2
+        return message
     end
 end
 
