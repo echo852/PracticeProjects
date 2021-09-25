@@ -4,71 +4,57 @@
 # NOT COMPLETE YET
 
 class SnakesLadders
-    @@snake_squares = [[16,6],[46,25],[49,11],[62,19],[64,60],[74,53],[89,68],[92,88],[95,75],[99,80]]
-    @@ladder_squares = [[2,38],[7,14],[8,31],[15,26],[21,42],[28,84],[36,44],[51,67],[71,91],[78,98],[87,94]]
 
-    # whose turn is it? it'll have to be 0 and 1 instead of 1 and 2 for array locations
-    @@player_number = 0
+    attr_reader :event_squares
+    attr_accessor :player_number, :player_locations
 
-    # where are the players currently?
-    @@player_locations = [0,0]
+    def initialize
+        @event_squares = [[16,6],[46,25],[49,11],[62,19],[64,60],[74,53],[89,68],[92,88],[95,75],[99,80],[2,38],[7,14],[8,31],[15,26],[21,42],[28,84],[36,44],[51,67],[71,91],[78,98],[87,94]]
+    
+        # whose turn is it? it'll have to be 0 and 1 instead of 1 and 2 for array locations
+        @player_number = 0
+    
+        # where are the players currently?
+        @player_locations = [0,0]
+    end
 
-    # check to see if the player landed on a snake or a ladder
+    # check to see if the player landed on a snake or a ladder (one of the event squares)
     def square_check(location)
-        snake_end = @@snake_squares.select {|(head,tail)|
-            head == location
-        }.map {|(head,tail)|
-            tail
+        event_squares.each {|event|
+            if player_locations[player_number] == event
+                player_locations[player_number] = event[1]
+            end
         }
-
-        ladder_end = @@ladder_squares.select {|(bottom,top)|
-            bottom == location
-        }.map {|(bottom,top)|
-            top
-        }
-
-        if snake_end.join.to_i != nil
-            return snake_end
-        elsif ladder_end.join.to_i != nil
-            return ladder_end           
-        else
-            return 0
-        end
     end
 
     # change current player
     def swap_players
-        if @@player_number == 0
-            @@player_number = 1
+        if player_number == 0
+            player_number = 1
         else
-            @@player_number = 0
+            player_number = 0
         end
     end
 
     # update the current player's location
     def update_location(die_sum)
-        current_location = @@player_locations[@@player_number].to_i
+        current_location = player_locations[player_number].to_i
         new_location = current_location + die_sum
-        @@player_locations[@@player_number] = new_location
-        snake_or_ladder_movement = square_check(current_location) # a variable to store the result of checking if the player moved along a snake or a ladder
-        if snake_or_ladder_movement != 0
-            @@player_locations[@@player_number] = snake_or_ladder_movement
-        else
-            @@player_locations[@@player_number] = current_location
-        end
+        player_locations[player_number] = new_location
+        square_check(current_location) # move the player to the corresponding square if they land on an event square
     end
 
     # check to see where the player is
     def check_location(loc)
         if loc == 100
-            return "Congratulations!  Player #{@@player_number} wins!"
+            puts "Congratulations!  Player #{player_number} wins!"
         elsif loc > 100
             difference = loc - 100
             go_back = 100 - difference
-            @@player_locations[@@player_number] = go_back
-            return "Player #{@@player_number} is on square #{go_back}"
+            player_locations[player_number] = go_back
+            puts "Player #{player_number} is on square #{go_back}"
         else
-            return "Player #{@@player_number} is on square #{loc}"
+            puts "Player #{player_number} is on square #{loc}"
         end
     end
 
@@ -76,7 +62,7 @@ class SnakesLadders
     def play(die1,die2)
         sum = die1 + die2
         update_location(sum)
-        loc = @@player_locations[@@player_number].join.to_i
+        loc = player_locations[player_number]
         check_location(loc)
         if die1 != die2
             swap_players()
