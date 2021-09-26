@@ -1,8 +1,6 @@
 # it's a snakes and ladders game!
 # it's a long explanation... check the link: https://www.codewars.com/kata/587136ba2eefcb92a9000027/train/ruby
 
-# NOT COMPLETE YET
-
 class SnakesLadders
 
     attr_accessor :event_squares, :player_number, :player_locations, :game_over
